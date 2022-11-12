@@ -18,7 +18,7 @@
 
 **Step 1** 找出一个边界点，并依次序访问与之相邻的其他边界点，将其$(u,v)$坐标初始化为$[0,1]^2$正方形或圆形边界上的点（采用均匀分布），其余各点的$(u,v)$坐标初始化为$(0.5,0.5)$。
 
-**Step 2** 用Jacobi迭代解方程，遍历非边界点，其新坐标$p_{new} = \displaystyle\sum_{j\in Neighbours}\lambda_{ij}p_j = \sum_{Neighbours}p_j/\#\{Neighours\}$。将该过程循环`iteration`次。
+**Step 2** 用Jacobi迭代解方程，遍历非边界点，其新坐标$p_{new} = \displaystyle\sum_{j\in Neighbours}\lambda_{ij}p_j = \sum_{Neighbours}p_j/count\{Neighours\}$。将该过程循环`iteration`次。
 
 函数实现的效果如下。
 
