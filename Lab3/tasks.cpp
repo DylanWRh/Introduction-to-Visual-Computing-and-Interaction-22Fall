@@ -62,7 +62,7 @@ namespace VCX::Labs::Rendering {
             glm::vec3 result(0.0f);
             /******************* 2. Whitted-style ray tracing *****************/
             // your code here
-            result = kd * 0.05f; // Ambient
+            result = kd * intersector.InternalScene->AmbientIntensity; // Ambient
 
             for (const Engine::Light & light : intersector.InternalScene->Lights) {
                 glm::vec3 l;
@@ -113,6 +113,8 @@ namespace VCX::Labs::Rendering {
                 /******************* 2. Whitted-style ray tracing *****************/
                 // your code here
                 result += light.Intensity * attenuation * kd * std::max(0.0f, glm::dot(glm::normalize(l), glm::normalize(n)));
+                glm::vec3 _half_dir = glm::normalize(glm::normalize(ray.Origin - pos) + glm::normalize(l));
+                result += light.Intensity * attenuation * ks * pow(std::max(0.0f, glm::dot(_half_dir, glm::normalize(n))), shininess);
             }
 
             if (alpha < 0.9) {
