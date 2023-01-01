@@ -40,49 +40,48 @@ A3. 在多解中寻找与上一个情况最相近的解。
 
 公式推导参考论文[Fast Simulation of Mass-Spring Systems](http://tiantianliu.cn/papers/liu13fast/liu13fast.pdf)。
 
-设系统包含$n$个节点，将这$n$个节点的位置用${q} \in \mathbb{R}^{3n}$表示。则隐式欧拉法的方程为
-$$\begin{align}
-{v}_{t+\Delta t} &= {v}_{t} + \Delta t {M}^{-1}{f}({q}_{t+\Delta t}) \\
-{q}_{t + \Delta t} &= {q}_{t} + \Delta t {v}_{t+\Delta t}
-\end{align}$$
-
-其中${M} = \mathrm{diag}\{m_1,\cdots,m_n\} \otimes {I}_{3\times 3}$。记${x} = {q}_{t+\Delta t}$，${y} = {q}_{t} + \Delta t {v}_{t}$，整理得
-$$
-{M(x-y)} = \Delta t^2 {f(x)}
-$$
-设系统能量为$E = E_{\mathrm{ext}}+E_{\mathrm{spring}}$，则${f(x)} = - \nabla E({x})$，令
-$$
-g({x}) = \cfrac{1}{2}{(x-y)^{T}M(x-y)} + \Delta t^2 E({x})
-$$则${M(x-y)} = \Delta t^2 {f(x)}$等价于$\nabla_{{x}}g({x}) = {0}$，也即所求的${x}$是$g({x})$的极值点。将$g({x})$化简
+设系统包含$n$个节点，将这$n$个节点的位置用$\bold{q} \in \mathbb{R}^{3n}$表示。则隐式欧拉法的方程为
 $$
 \begin{aligned}
-g({x}) &= 
-\cfrac{1}{2}{(x-y)^{T}M(x-y)} + \Delta t^2(E_{\mathrm{ext}}+E_{\mathrm{spring}}) \\
-&= \cfrac{1}{2}{(x-y)^{T}M(x-y)} - \Delta t^2 {f}_{\mathrm{ext}}^{{T}}{x} + \Delta t^2\sum_{i=1}^{s}\cfrac{k_i}{2}(||{p}_{i,1} - {p}_{i,2}|| -r_{i})^2
+\bold{v}_{t+\Delta t} &= \bold{v}_{t} + \Delta t \bold{M}^{-1}\bold{f}(\bold{q}_{t+\Delta t}) \\
+\bold{q}_{t + \Delta t} &= \bold{q}_{t} + \Delta t \bold{v}_{t+\Delta t}
 \end{aligned}
-$$其中$s$为弹簧数目，${p}_{i,1}$和${p}_{i,2}$为第$i$个弹簧两端的质点的位置，$r_i$为弹簧原长度。而对于$r \geq 0$，有$(||{p}_1-{p}_2|| - r)^2 = \min\limits_{||{d}||=r}||({p}_1-{p}_2)-{d}||^2$，在${d} = \cfrac{{p}_1-{p}_2}{||{p}_1-{p}_2||}r$时取到极值，故
+$$其中$\bold{M} = \mathrm{diag}\{m_1,\cdots,m_n\} \otimes \bold{I}_{3\times 3}$。记$\bold{x} = \bold{q}_{t+\Delta t}$，$\bold{y} = \bold{q}_{t} + \Delta t \bold{v}_{t}$，整理得
+$$
+\bold{M(x-y)} = \Delta t^2 \bold{f(x)}
+$$设系统能量为$E = E_{\mathrm{ext}}+E_{\mathrm{spring}}$，则$\bold{f(x)} = - \nabla E(\bold{x})$，令
+$$
+g(\bold{x}) = \cfrac{1}{2}\bold{(x-y)^{T}M(x-y)} + \Delta t^2 E(\bold{x})
+$$则$\bold{M(x-y)} = \Delta t^2 \bold{f(x)}$等价于$\nabla_{\bold{x}}g(\bold{x}) = \bold{0}$，也即所求的$\bold{x}$是$g(\bold{x})$的极值点。将$g(\bold{x})$化简
 $$
 \begin{aligned}
-g({x}) &= 
-\cfrac{1}{2}{(x-y)^{T}M(x-y)} - \Delta t^2 {f}_{\mathrm{ext}}^{{T}}{x} + \Delta t^2\sum_{i=1}^{s}\cfrac{k_i}{2}\min_{{d}_i}||{p}_{i,1} - {p}_{i,2}-{d}_i||^2\\
-&= \cfrac{1}{2}{x^{T}}({M}+\Delta t^2{L}){x} - \Delta t^2{x^{T}Jd}-{x^{T}}({My} + \Delta t^2{f}_{\mathrm{ext}}) + \mathrm{Constant}
+g(\bold{x}) &= 
+\cfrac{1}{2}\bold{(x-y)^{T}M(x-y)} + \Delta t^2(E_{\mathrm{ext}}+E_{\mathrm{spring}}) \\
+&= \cfrac{1}{2}\bold{(x-y)^{T}M(x-y)} - \Delta t^2 \bold{f}_{\mathrm{ext}}^{\bold{T}}\bold{x} + \Delta t^2\sum_{i=1}^{s}\cfrac{k_i}{2}(||\bold{p}_{i,1} - \bold{p}_{i,2}|| -r_{i})^2
+\end{aligned}
+$$其中$s$为弹簧数目，$\bold{p}_{i,1}$和$\bold{p}_{i,2}$为第$i$个弹簧两端的质点的位置，$r_i$为弹簧原长度。而对于$r \geq 0$，有$(||\bold{p}_1-\bold{p}_2|| - r)^2 = \min\limits_{||\bold{d}||=r}||(\bold{p}_1-\bold{p}_2)-\bold{d}||^2$，在$\bold{d} = \cfrac{\bold{p}_1-\bold{p}_2}{||\bold{p}_1-\bold{p}_2||}r$时取到极值，故
+$$
+\begin{aligned}
+g(\bold{x}) &= 
+\cfrac{1}{2}\bold{(x-y)^{T}M(x-y)} - \Delta t^2 \bold{f}_{\mathrm{ext}}^{\bold{T}}\bold{x} + \Delta t^2\sum_{i=1}^{s}\cfrac{k_i}{2}\min_{\bold{d}_i}||\bold{p}_{i,1} - \bold{p}_{i,2}-\bold{d}_i||^2\\
+&= \cfrac{1}{2}\bold{x^{T}}(\bold{M}+\Delta t^2\bold{L})\bold{x} - \Delta t^2\bold{x^{T}Jd}-\bold{x^{T}}(\bold{My} + \Delta t^2\bold{f}_{\mathrm{ext}}) + \mathrm{Constant}
 \end{aligned}
 $$其中
 $$
 \begin{aligned}
-&{L} = \left(\sum_{i=1}^{s}k_i{A}_i{A}_i^{{T}}\right)\otimes {I}_{3\times 3} \in \mathbb{R}^{3n\times 3n}, &&{J} = \left(\sum_{i=1}^{s}k_i{A}_i{S}_i^{{T}}\right)\otimes{I}_{3\times 3} \in \mathbb{R}^{3n \times 3s} \\
-&{A}_{i,j} = {\begin{cases}
+&\bold{L} = \left(\sum_{i=1}^{s}k_i\bold{A}_i\bold{A}_i^{\bold{T}}\right)\otimes \bold{I}_{3\times 3} \in \mathbb{R}^{3n\times 3n}, &&\bold{J} = \left(\sum_{i=1}^{s}k_i\bold{A}_i\bold{S}_i^{\bold{T}}\right)\otimes\bold{I}_{3\times 3} \in \mathbb{R}^{3n \times 3s} \\
+&\bold{A}_{i,j} = {\begin{cases}
     1, & j=i_{1} \\ -1, & j=i_{2} \\ 0, &\mathrm{otherwise}
 \end{cases}}
-, \quad {A}_i \in \mathbb{R}^{n}, &&{S}_{i,j} = \delta_{i,j},\quad  {S}_i \in \mathbb{R}^{s} \\
-&{d} = ({d}_1, \cdots, {d}_s) \in \mathbb{R}^{3s}, && {d}_i = \cfrac{{p}_{i,1} - {p}_{i,2}}{||{p}_{i,1} - {p}_{i,2}||}r_i
+, \quad \bold{A}_i \in \mathbb{R}^{n}, &&\bold{S}_{i,j} = \delta_{i,j},\quad  \bold{S}_i \in \mathbb{R}^{s} \\
+&\bold{d} = (\bold{d}_1, \cdots, \bold{d}_s) \in \mathbb{R}^{3s}, && \bold{d}_i = \cfrac{\bold{p}_{i,1} - \bold{p}_{i,2}}{||\bold{p}_{i,1} - \bold{p}_{i,2}||}r_i
 \end{aligned}
 $$于是
 $$
 \begin{aligned}
-    \nabla_{{x}}g({x}) = {0} \iff ({M}+ \Delta t^2{L}){x} = \Delta t^2 {Jd} + {My} + \Delta t^2{f}_{\mathrm{ext}} \iff {Qx = b}
+    \nabla_{\bold{x}}g(\bold{x}) = \bold{0} \iff (\bold{M}+ \Delta t^2\bold{L})\bold{x} = \Delta t^2 \bold{Jd} + \bold{My} + \Delta t^2\bold{f}_{\mathrm{ext}} \iff \bold{Qx = b}
 \end{aligned}
-$$只需解出${x}$即得各质点新的位置。
+$$只需解出$\bold{x}$即得各质点新的位置。
 
 最终实现的单帧效果如下。
 
