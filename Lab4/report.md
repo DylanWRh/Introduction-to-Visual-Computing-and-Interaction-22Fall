@@ -41,15 +41,16 @@ A3. 在多解中寻找与上一个情况最相近的解。
 公式推导参考论文[Fast Simulation of Mass-Spring Systems](http://tiantianliu.cn/papers/liu13fast/liu13fast.pdf)。
 
 设系统包含$n$个节点，将这$n$个节点的位置用${q} \in \mathbb{R}^{3n}$表示。则隐式欧拉法的方程为
-$$
-\begin{aligned}
+$$\begin{align}
 {v}_{t+\Delta t} &= {v}_{t} + \Delta t {M}^{-1}{f}({q}_{t+\Delta t}) \\
 {q}_{t + \Delta t} &= {q}_{t} + \Delta t {v}_{t+\Delta t}
-\end{aligned}
-$$其中${M} = \mathrm{diag}\{m_1,\cdots,m_n\} \otimes {I}_{3\times 3}$。记${x} = {q}_{t+\Delta t}$，${y} = {q}_{t} + \Delta t {v}_{t}$，整理得
+\end{align}$$
+
+其中${M} = \mathrm{diag}\{m_1,\cdots,m_n\} \otimes {I}_{3\times 3}$。记${x} = {q}_{t+\Delta t}$，${y} = {q}_{t} + \Delta t {v}_{t}$，整理得
 $$
 {M(x-y)} = \Delta t^2 {f(x)}
-$$设系统能量为$E = E_{\mathrm{ext}}+E_{\mathrm{spring}}$，则${f(x)} = - \nabla E({x})$，令
+$$
+设系统能量为$E = E_{\mathrm{ext}}+E_{\mathrm{spring}}$，则${f(x)} = - \nabla E({x})$，令
 $$
 g({x}) = \cfrac{1}{2}{(x-y)^{T}M(x-y)} + \Delta t^2 E({x})
 $$则${M(x-y)} = \Delta t^2 {f(x)}$等价于$\nabla_{{x}}g({x}) = {0}$，也即所求的${x}$是$g({x})$的极值点。将$g({x})$化简
